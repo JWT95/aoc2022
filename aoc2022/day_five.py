@@ -34,9 +34,6 @@ if __name__ == "__main__":
         for line in instructions
     ]
 
-    print(diagram_parsed)
-    print(instructions_parsed)
-
     # Now play through the instructions - Part One
     # for instruction in instructions_parsed:
     #     for _ in range(instruction[0]):
