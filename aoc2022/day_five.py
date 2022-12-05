@@ -16,7 +16,7 @@ if __name__ == "__main__":
         else:
             instructions.append(line)
 
-    # Process instructions
+    # Process diagram
     diagram_parsed = [[] for _ in range(9)]
 
     # Get rid of the bottom line of the diagram
