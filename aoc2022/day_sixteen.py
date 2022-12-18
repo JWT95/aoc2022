@@ -99,8 +99,6 @@ if __name__ == "__main__":
         set_a = dict({"AA": points["AA"]}, **{a: points[a] for a in combination})
         set_b = dict({"AA": points["AA"]}, **{b: points[b] for b in high_value_items_pre if b not in set_a})
 
-
-
         walk_a = find_max_walk_single("AA", set_a, valves, dict(), 26)
         walk_b = find_max_walk_single("AA", set_b, valves, dict(), 26)
 
