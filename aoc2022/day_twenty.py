@@ -8,9 +8,6 @@ if __name__ == "__main__":
     points = {i: (i, factor*int(lines[i])) for i in range(len(lines))}
     print(points)
 
-
-
-
     start = [int(a) for a in lines]
     current_positions = [i for i in range(len(start))]
 
