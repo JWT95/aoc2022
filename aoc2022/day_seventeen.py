@@ -1,6 +1,6 @@
-SQUARE = {(2, 3), (2, 4), (3, 3), (3,4)}
-PLUS = {(3, 3), (2, 4), (3, 4), (4,4), (3, 5)}
-ELL = {(2, 3), (3, 3), (4, 3), (4,4), (4, 5)}
+SQUARE = {(2, 3), (2, 4), (3, 3), (3, 4)}
+PLUS = {(3, 3), (2, 4), (3, 4), (4, 4), (3, 5)}
+ELL = {(2, 3), (3, 3), (4, 3), (4, 4), (4, 5)}
 VLINE = {(2, 3), (2, 4), (2, 5), (2, 6)}
 HLINE = {(2, 3), (3, 3), (4, 3), (5, 3)}
 SHAPES = [HLINE, PLUS, ELL, VLINE, SQUARE]
@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     line = lines[0]
 
-    rocks = {(i, 0) for i in range(1,8)}
+    rocks = {(i, 0) for i in range(1, 8)}
     wind_index = 0
     for i in range(100000000):
         height = max([rock[1] for rock in rocks])
@@ -19,8 +19,8 @@ if __name__ == "__main__":
         if i % 1000 == 0:
             # Get rid of anything below 100 max height
             print(i, height)
-            rocks = {rock for rock in rocks if rock[1] > height-1000}
-        if i % 5 == 0 and wind_index%len(line) == 7:
+            rocks = {rock for rock in rocks if rock[1] > height - 1000}
+        if i % 5 == 0 and wind_index % len(line) == 7:
             print("loop", i, height)
         if (i - 1715) % 1720 == 1445:
             print("1445", i, height)
@@ -29,15 +29,15 @@ if __name__ == "__main__":
         height = max([rock[1] for rock in rocks])
 
         # Find the shape to apply and the direction to apply
-        shape = SHAPES[i%5]
+        shape = SHAPES[i % 5]
 
         # Put shape in the right place
-        shape = {(point[0]+1, point[1] + height+1) for point in shape}
+        shape = {(point[0] + 1, point[1] + height + 1) for point in shape}
 
         for j in range(1000):
             # Apply the wind direction
-            direction = line[wind_index%len(line)]
-            wind_index+=1
+            direction = line[wind_index % len(line)]
+            wind_index += 1
             if direction == "<":
                 new_shape = {(point[0] - 1, point[1]) for point in shape}
             else:
@@ -66,7 +66,6 @@ if __name__ == "__main__":
                 break
             else:
                 shape = new_shape
-
 
     print(max(rock[1] for rock in rocks))
 

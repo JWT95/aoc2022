@@ -1,6 +1,7 @@
 from dijkstar import Graph, find_path
 from itertools import combinations
 
+
 def find_max_walk_single(start, points, valves, walk_so_far, steps_left):
     neighbors = points[start]
 
@@ -9,34 +10,68 @@ def find_max_walk_single(start, points, valves, walk_so_far, steps_left):
     max_walk = calculate_score(walk_so_far, valves)
     if len(walk_so_far) == len(points):
         return max_walk
-    for neighbor in [neighbor for neighbor in neighbors if neighbor[0] not in walk_so_far.keys() and neighbor[0] in points.keys()]:
+    for neighbor in [
+        neighbor
+        for neighbor in neighbors
+        if neighbor[0] not in walk_so_far.keys() and neighbor[0] in points.keys()
+    ]:
         if neighbor[1] < steps_left:
-            walk = find_max_walk_single(neighbor[0], points, valves, dict({neighbor[0]: steps_left-neighbor[1]}, **walk_so_far), steps_left-neighbor[1])
+            walk = find_max_walk_single(
+                neighbor[0],
+                points,
+                valves,
+                dict({neighbor[0]: steps_left - neighbor[1]}, **walk_so_far),
+                steps_left - neighbor[1],
+            )
             max_walk = max(walk, max_walk)
 
     return max_walk
 
 
 def calculate_score(walk, valves):
-    return sum([when * valves[key][0] for key, when in walk.items() ])
+    return sum([when * valves[key][0] for key, when in walk.items()])
+
 
 # Do the same but now kick off two sets
-def find_max_walk_double(start_one, start_two, points, valves, walk_so_far, steps_left, steps_right):
+def find_max_walk_double(
+    start_one, start_two, points, valves, walk_so_far, steps_left, steps_right
+):
     neighbors_left = points[start_one]
     neighbors_right = points[start_two]
-
 
     # Consider the next places to visit for both
     max_walk = calculate_score(walk_so_far, valves)
 
-    for neighbor in [neighbor for neighbor in neighbors_left if neighbor[0] not in walk_so_far.keys()]:
+    for neighbor in [
+        neighbor for neighbor in neighbors_left if neighbor[0] not in walk_so_far.keys()
+    ]:
         if neighbor[1] < steps_left:
-            walk = find_max_walk_double(neighbor[0], start_two, points, valves, dict({neighbor[0]: steps_left-neighbor[1]}, **walk_so_far), steps_left-neighbor[1], steps_right)
+            walk = find_max_walk_double(
+                neighbor[0],
+                start_two,
+                points,
+                valves,
+                dict({neighbor[0]: steps_left - neighbor[1]}, **walk_so_far),
+                steps_left - neighbor[1],
+                steps_right,
+            )
             max_walk = max(walk, max_walk)
 
-    for neighbor in [neighbor for neighbor in neighbors_right if neighbor[0] not in walk_so_far.keys()]:
+    for neighbor in [
+        neighbor
+        for neighbor in neighbors_right
+        if neighbor[0] not in walk_so_far.keys()
+    ]:
         if neighbor[1] < steps_right:
-            walk = find_max_walk_double(start_one, neighbor[0], points, valves, dict({neighbor[0]: steps_right-neighbor[1]}, **walk_so_far), steps_left, steps_right - neighbor[1])
+            walk = find_max_walk_double(
+                start_one,
+                neighbor[0],
+                points,
+                valves,
+                dict({neighbor[0]: steps_right - neighbor[1]}, **walk_so_far),
+                steps_left,
+                steps_right - neighbor[1],
+            )
             max_walk = max(walk, max_walk)
 
     # Consider all the options
@@ -66,9 +101,9 @@ if __name__ == "__main__":
         splitline = line.split()
         name = splitline[1]
         rate = splitline[4]
-        rate = int(rate.split('=')[1].rstrip(';'))
+        rate = int(rate.split("=")[1].rstrip(";"))
         neighbors = splitline[9:]
-        neighbors = [valve.rstrip(',') for valve in neighbors]
+        neighbors = [valve.rstrip(",") for valve in neighbors]
         valves[name] = (rate, neighbors)
 
     # Make a graph of stuff and then filter down to just the good ones
@@ -85,8 +120,12 @@ if __name__ == "__main__":
     points = dict()
     for point in high_value_items:
         points[point] = []
-        for neighbor in [neighbor for neighbor in high_value_items if point != neighbor]:
-            points[point].append((neighbor, len(find_path(graph, point, neighbor).edges)+1))
+        for neighbor in [
+            neighbor for neighbor in high_value_items if point != neighbor
+        ]:
+            points[point].append(
+                (neighbor, len(find_path(graph, point, neighbor).edges) + 1)
+            )
 
     print(find_max_walk_single("AA", points, valves, dict(), 30))
 
@@ -97,7 +136,10 @@ if __name__ == "__main__":
     max_score = 0
     for combination in combinations(high_value_items_pre, 8):
         set_a = dict({"AA": points["AA"]}, **{a: points[a] for a in combination})
-        set_b = dict({"AA": points["AA"]}, **{b: points[b] for b in high_value_items_pre if b not in set_a})
+        set_b = dict(
+            {"AA": points["AA"]},
+            **{b: points[b] for b in high_value_items_pre if b not in set_a}
+        )
 
         walk_a = find_max_walk_single("AA", set_a, valves, dict(), 26)
         walk_b = find_max_walk_single("AA", set_b, valves, dict(), 26)

@@ -1,29 +1,31 @@
 from dijkstar import Graph, find_path
 
-movements = [(1,0, 0), (-1, 0, 0 ), (0, 1, 0 ), (0, -1, 0 ), (0, 0, 1 ), (0, 0, -1)]
+movements = [(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)]
+
 
 def free(point, points) -> int:
     count = 0
 
-    if (point[0]+1, point[1], point[2]) not in points:
-        count +=1
+    if (point[0] + 1, point[1], point[2]) not in points:
+        count += 1
 
-    if (point[0]-1, point[1], point[2]) not in points:
-        count +=1
+    if (point[0] - 1, point[1], point[2]) not in points:
+        count += 1
 
-    if (point[0], point[1]+1, point[2]) not in points:
-        count +=1
+    if (point[0], point[1] + 1, point[2]) not in points:
+        count += 1
 
-    if (point[0], point[1]-1, point[2]) not in points:
-        count +=1
+    if (point[0], point[1] - 1, point[2]) not in points:
+        count += 1
 
-    if (point[0], point[1], point[2]+1) not in points:
-        count +=1
+    if (point[0], point[1], point[2] + 1) not in points:
+        count += 1
 
-    if (point[0], point[1], point[2]-1) not in points:
-        count +=1
+    if (point[0], point[1], point[2] - 1) not in points:
+        count += 1
 
     return count
+
 
 def reachable(point, points, graph) -> int:
     count = 0
@@ -39,6 +41,7 @@ def reachable(point, points, graph) -> int:
                 pass
 
     return count
+
 
 if __name__ == "__main__":
     with open("./inputs/day_eighteen.txt") as f:
@@ -58,24 +61,24 @@ if __name__ == "__main__":
     for x in range(-1, 23):
         for y in range(-1, 23):
             for z in range(-1, 23):
-                point = (x,y,z)
+                point = (x, y, z)
                 if point not in points:
-                    if (point[0]+1, point[1], point[2]) not in points:
-                        graph.add_edge(point, (point[0]+1, point[1], point[2]), 1)
+                    if (point[0] + 1, point[1], point[2]) not in points:
+                        graph.add_edge(point, (point[0] + 1, point[1], point[2]), 1)
 
-                    if (point[0]-1, point[1], point[2]) not in points:
-                        graph.add_edge(point, (point[0]-1, point[1], point[2]), 1)
+                    if (point[0] - 1, point[1], point[2]) not in points:
+                        graph.add_edge(point, (point[0] - 1, point[1], point[2]), 1)
 
-                    if (point[0], point[1]+1, point[2]) not in points:
-                        graph.add_edge(point, (point[0], point[1]+1, point[2]), 1)
+                    if (point[0], point[1] + 1, point[2]) not in points:
+                        graph.add_edge(point, (point[0], point[1] + 1, point[2]), 1)
 
-                    if (point[0], point[1]-1, point[2]) not in points:
-                        graph.add_edge(point, (point[0], point[1]-1, point[2]), 1)
+                    if (point[0], point[1] - 1, point[2]) not in points:
+                        graph.add_edge(point, (point[0], point[1] - 1, point[2]), 1)
 
-                    if (point[0], point[1], point[2]+1) not in points:
-                        graph.add_edge(point, (point[0], point[1], point[2]+1), 1)
+                    if (point[0], point[1], point[2] + 1) not in points:
+                        graph.add_edge(point, (point[0], point[1], point[2] + 1), 1)
 
-                    if (point[0], point[1], point[2]-1) not in points:
-                        graph.add_edge(point, (point[0], point[1], point[2]-1), 1)
+                    if (point[0], point[1], point[2] - 1) not in points:
+                        graph.add_edge(point, (point[0], point[1], point[2] - 1), 1)
 
     print(sum([reachable(point, points, graph) for point in points]))
